@@ -1,9 +1,5 @@
 # Swiftly-P2P_Rental
 Transform How You Share: Peer-to-Peer Rentals for Everyday Essentials.
-# Swiftly-P2P_Rental
-
-Welcome to Swiftly, a peer-to-peer rental website that transforms how you share everyday essentials!
-
 
 ![Home Page](image.png)
 
