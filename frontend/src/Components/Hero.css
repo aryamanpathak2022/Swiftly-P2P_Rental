@@ -7,7 +7,7 @@
     height: 500px;
     box-sizing: border-box;
     background-color: #f9f9f9;
-    z-index: -2; /* Adjust the background color as needed */
+    /* z-index: 1; Adjust the background color as needed */
   }
   
   .hero-text {
@@ -67,12 +67,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 3
+    
   }
   
   .hero-image img {
-    width: 650px;
+    width: 950px;
     height: auto;
+    margin-bottom:320px ;
+    margin-right: -220px;
     transform: rotate(130deg);
+    position: relative;
+    z-index:-20
     
   }
   
