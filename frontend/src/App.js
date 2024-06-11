@@ -6,7 +6,7 @@ import Home from './Pages/Home';
 // import Product from './pages/Product';
 // import Chat from './pages/Chat';
 import Login from './Pages/Login';
-// import Chat from './pages/Signup';
+import Signup from './Pages/Signup';
 
 import logo from './logo.svg';
 import './App.css';
@@ -18,8 +18,9 @@ function App() {
         <div className="App-content">
           <Routes>
             <Route path="/" element={<Home />} />
-            {<Route path="/Login" element={<Login />} />
-            /* <Route path="/account" element={<Account />} />
+            <Route path="/Login" element={<Login />} />
+             <Route path="/Signup" element={<Signup />} />
+            {/* <Route path="/account" element={<Account />} />
             <Route path="/product" element={<Product />} />
             <Route path="/chat" element={<Chat />} /> */}
           </Routes>

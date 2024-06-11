@@ -17,7 +17,7 @@
   .login-left {
     background-color: #f0f0f0;
     padding: 10px;
-    padding-bottom: 250px;
+    padding-bottom: 120px;
   }
   
   .swiftly-title {
@@ -79,13 +79,14 @@
   
   .line {
     flex: 1;
-    height: 1px;
-    background-color: #ccc;
+    height: 2px;
+    background-color: black;
   }
   
   .or-text {
     margin: 0 10px;
     color: #999;
+    font-size: 14px;
   }
   
   .login-form {
@@ -104,10 +105,9 @@
   
   .login-button {
     padding: 10px;
-    border: blac;
+    border: none;
     border-radius: 15px;
-    background-color:  #f0f0f0;;
-    color: black;
+    background-color:  black ;   color: #f0f0f0;;
     width: 100px;
     margin-left: 35%;
 
@@ -115,7 +115,7 @@
   }
   
   .forgot-password {
-    margin-top: 10px;
+    margin-top: 20px;
   }
   
   .login-right {
