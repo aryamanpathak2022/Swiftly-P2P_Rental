@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+
+
+.login-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .login-left, .login-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-left {
+    background-color: #f0f0f0;
+    padding: 10px;
+    padding-bottom: 250px;
+  }
+  
+  .swiftly-title {
+    position: absolute;
+    top: -30px;
+    left: 15px;
+    font-size: 64px;
+    font-weight: normal;
+    font-family: 'Grand Hotel', cursive;
+  }
+  
+  .login-form-container {
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .welcome-text {
+    font-size: 54px;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  
+  .signup-text {
+   
+    margin-bottom: 20px;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .social-button {
+    background-color: white;
+    border:blac;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+  
+  .social-button img {
+    width: 30px;
+    height: 30px;
+
+  }
+  
+  .or-divider {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .line {
+    flex: 1;
+    height: 1px;
+    background-color: #ccc;
+  }
+  
+  .or-text {
+    margin: 0 10px;
+    color: #999;
+  }
+  
+  .login-form {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  .login-input {
+    padding: 10px;
+    margin-bottom: 40px;
+    border: 1px solid #ccc;
+    border-radius: 100px;
+  }
+  
+  .login-button {
+    padding: 10px;
+    border: blac;
+    border-radius: 15px;
+    background-color:  #f0f0f0;;
+    color: black;
+    width: 100px;
+    margin-left: 35%;
+
+    cursor: pointer;
+  }
+  
+  .forgot-password {
+    margin-top: 10px;
+  }
+  
+  .login-right {
+    background-color:  #f0f0f0;
+  }
+  
+  .login-image {
+    width: 95%;
+    height: 95%;
+    object-fit: cover;
+    border-radius: 20px;
+  }
+  
