@@ -1,0 +1,45 @@
+.account-page {
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.account-info {
+  width: 60%;
+}
+
+.input-field {
+  margin-bottom: 30px;
+  
+}
+
+.input-field label {
+  display: block;
+  margin-bottom: 40px;
+  font-size: 44px;
+  
+}
+
+.info-field {
+  margin-bottom: 40px;
+  font-size: 44px;
+}
+
+.field-name {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.save-button, .edit-button {
+  padding: 10px 30px;
+  background-color: black;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-button:hover, .edit-button:hover {
+  background-color: #0056b3;
+  
+}

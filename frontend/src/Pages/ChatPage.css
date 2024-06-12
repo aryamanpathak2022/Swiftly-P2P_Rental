@@ -1,0 +1,89 @@
+.chat-page-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #ffffff; /* White background */
+    color: #000000; /* Black text color */
+    padding: 20px;
+}
+.heading
+{
+    font-size: 50px;
+    margin-bottom: 30px;
+    position: relative;
+    top: -50px;
+    
+}
+.chat-list-container {
+    flex: 1;
+    margin-right: 20px;
+}
+.swiftly1
+{
+    font-size:80px;
+    font-family: "Grand Hotel", cursive;
+    color: black;
+    margin-left: 20px;
+    font-weight: normal;
+    position: relative;
+    top: -70px;
+   
+
+}
+.chat-list {
+    list-style: none;
+    padding: 0;
+}
+
+.chat-item {
+    padding: 10px;
+    border: 2px solid black; /* Light gray border */
+    cursor: pointer;
+    width: 100%;
+}
+
+.chat-item:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+}
+
+.chat-item-name {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.unread-badge {
+    background-color:#dcf8c6;    /* Red badge color */
+    color: black; /* White text color */
+    border-radius: 0%;
+    padding: 4px 8px;
+    margin-left: 10px;
+    max-width: 100px;
+    font-weight: 500;
+}
+
+.chat-controls {
+    width: 200px;
+}
+.chat-item-message
+{
+    font-size: 20px;
+    font-weight: normal;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+.chat-button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #000000; /* Black button background */
+    color: #ffffff; /* White text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chat-button:hover {
+    background-color: #333333; /* Dark gray background on hover */
+}

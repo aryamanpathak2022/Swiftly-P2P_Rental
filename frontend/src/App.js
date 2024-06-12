@@ -8,7 +8,10 @@ import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Dashboard from './Pages/Dashboard';
+import AccountPage from './Pages/AccountPage';
 import logo from './logo.svg';
+import ChatPage from './Pages/ChatPage';
+import Chatinside from './Pages/Chatinside';
 import './App.css';
 
 function App() {
@@ -21,6 +24,11 @@ function App() {
             <Route path="/Login" element={<Login />} />
              <Route path="/Signup" element={<Signup />} />
             <Route path="/Dashboard" element={<Dashboard />} />
+            <Route path="/AccountPage" element={<AccountPage />} />
+            <Route path="/ChatPage" element={<ChatPage />} />
+            <Route path="/Chatinside" element={<Chatinside />} />
+
+
             {/* <Route path="/account" element={<Account />} />
             <Route path="/product" element={<Product />} />
             <Route path="/chat" element={<Chat />} /> */}
