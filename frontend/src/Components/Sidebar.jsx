@@ -12,9 +12,12 @@ const Sidebar = ({ name, location }) => {
         <p className="location">{location}</p>
       </div>
       <div className="nav-buttons">
-        <button className="nav-button">Dashboard</button>
-        <button className="nav-button">Lent Items</button>
         <button className="nav-button">Account</button>
+        <button className="nav-button">Items Rented</button>
+        <button className="nav-button">Lent new items</button>
+        <button className="nav-button">Item Lented</button>
+        <button className="nav-button">Help & Support</button>
+        
       </div>
       <button className="nav-button logout-button">Log Out</button>
     </div>
