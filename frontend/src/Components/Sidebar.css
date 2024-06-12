@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+
+.sidebar-container {
+    width: 33.33%;
+    height: 100vh;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+  }
+
+  .comp_name{
+    position: relative;
+    font-size: 74px;
+    font-weight: normal;
+    top: -20px;
+    left: -200px;
+    font-family: "Grand Hotel", cursive;
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    top: -50px;
+    position: relative;
+   
+  }
+  
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: white;
+    margin-bottom: 10px;
+  }
+  
+  .name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .location {
+    font-size: 14px;
+    opacity: 0.7;
+  }
+  
+  .nav-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+    top: -130px;
+  }
+  
+  .nav-button {
+    width: 40%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 20px;
+  }
+  
+  .nav-button:hover {
+    background-color: white;
+    color: black;
+  }
+  
+  .logout-button {
+    position: relative;
+    margin-left: 190px;
+    bottom: 0px;
+  }
+  
