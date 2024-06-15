@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Rooms</title>
+    <script>
+        function setRoomName() {
+            const roomName = document.getElementById('room-name').value;
+            const form = document.getElementById('room-form');
+            form.action = `/chat/${roomName}/`;
+        }
+    </script>
+</head>
+<body>
+    <h1>Chat Rooms</h1>
+    <form id="room-form" method="get" onsubmit="setRoomName()">
+        <label for="room-name">Room Name:</label>
+        <input id="room-name" type="text" name="room_name" required>
+        <button type="submit">Enter</button>
+    </form>
+</body>
+</html>

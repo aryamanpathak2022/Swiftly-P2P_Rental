@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+     'daphne' , 
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -50,6 +51,11 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.github',
+
+    # chat
+    'chat',
+    'channels',
+   
 ]
 # manual
 REST_FRAMEWORK = {
@@ -98,6 +104,14 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
+
+
+
 # Additional settings for allauth
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
@@ -117,11 +131,11 @@ MIDDLEWARE = [
 
 
 ROOT_URLCONF = "backend_swiftly.urls"
-
+import os
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        'DIRS': [os.path.join(BASE_DIR, 'chat/templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -223,3 +237,18 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
+
+import os
+
+from channels.routing import ProtocolTypeRouter
+from django.core.asgi import get_asgi_application
+
+django_asgi_app = get_asgi_application()
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend_swiftly.settings")
+application = ProtocolTypeRouter({
+    "http": django_asgi_app,
+    # Just HTTP for now. (We can add other protocols later.)
+})
+
+ASGI_APPLICATION = 'backend_swiftly.asgi.application'
