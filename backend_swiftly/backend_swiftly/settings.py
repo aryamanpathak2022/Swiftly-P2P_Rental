@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+
 INSTALLED_APPS = [
      'daphne' , 
     "django.contrib.admin",
@@ -252,3 +253,5 @@ application = ProtocolTypeRouter({
 })
 
 ASGI_APPLICATION = 'backend_swiftly.asgi.application'
+# add default user as user app
+# AUTH_USER_MODEL = 'user.User'

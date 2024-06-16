@@ -1,0 +1,11 @@
+<!-- search.html -->
+
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Search Results for "{{ query }}"</h2>
+  <ul>
+    {% for user in users %}
+      <li>{{ user.username }} <a href="{% url 'create_or_open_private_chat' user.id %}">Start Chat</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
