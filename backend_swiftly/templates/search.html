@@ -1,0 +1,124 @@
+<!-- search.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #0779e4 3px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header ul {
+            padding: 0;
+            list-style: none;
+        }
+        header li {
+            float: left;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        .search-box {
+            margin: 50px 0;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .search-box input[type="text"] {
+            width: calc(100% - 120px);
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ddd;
+        }
+        .search-box button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background: #333;
+            color: #fff;
+            border: none;
+        }
+        .results {
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .results ul {
+            list-style: none;
+            padding: 0;
+        }
+        .results li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .results li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Chat Application</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-box">
+            <h2>Search Users</h2>
+            <form method="GET" action="{% url 'search_users' %}">
+                <input type="text" name="q" placeholder="Search by username" value="{{ query|default:'' }}">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <div class="results">
+            <h2>Results</h2>
+            <ul>
+                {% for user in users %}
+                    <li><a href="{% url 'private_chat_room' user.username %}">{{ user.username }}</a></li>
+                {% empty %}
+                    <li>No users found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

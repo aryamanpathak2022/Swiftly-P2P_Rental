@@ -1,0 +1,18 @@
+<!-- swiftly_backend/templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Swiftly Chat App</title>
+</head>
+<body>
+    <h2>Welcome {{ user.username }}</h2>
+    <a href="{% url 'logout' %}">Logout</a>
+    <h3>Search User</h3>
+    <form method="post" action="{% url 'search' %}">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Enter username">
+        <button type="submit">Search</button>
+    </form>
+    <!-- Additional content as per your application needs -->
+</body>
+</html>

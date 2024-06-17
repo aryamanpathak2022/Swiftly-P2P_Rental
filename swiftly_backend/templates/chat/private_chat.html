@@ -1,0 +1,48 @@
+<!-- swiftly_backend/templates/private_chat.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with {{ recipient.username }}</title>
+</head>
+<body>
+    <h2>Chat with {{ recipient.username }}</h2>
+    <div id="chat-messages">
+        {% for message in messages %}
+            <p>{{ message.sender }}: {{ message.message }}</p>
+        {% endfor %}
+    </div>
+    <form id="chat-form">
+        {% csrf_token %}
+        <input type="text" id="chat-message-input" placeholder="Type a message...">
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        const chatForm = document.querySelector('#chat-form');
+        const messageInput = document.querySelector('#chat-message-input');
+        const chatMessages = document.querySelector('#chat-messages');
+        const roomName = "{{ room_name }}";
+        const socket = new WebSocket(`ws://${window.location.host}/ws/chat/private/${roomName}/`);
+
+        socket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            const message = data.message;
+            const sender = data.sender;
+            const p = document.createElement('p');
+            p.textContent = `${sender}: ${message}`;
+            chatMessages.appendChild(p);
+        };
+
+        chatForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const message = messageInput.value.trim();
+            if (message) {
+                socket.send(JSON.stringify({
+                    'message': message
+                }));
+            }
+            messageInput.value = '';
+        });
+    </script>
+</body>
+</html>
