@@ -1,25 +1,36 @@
-from django.core.serializers.json import Serializer
+from django.contrib.auth.models import User
+from rest_framework import serializers
 
-JSON_ALLOWED_OBJECTS = (dict, list, tuple, str, int, bool)
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'password')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
 
 
-class CustomSerializer(Serializer):
-    def end_object(self, obj):
-        for field in self.selected_fields:
-            if field == 'pk':
-                continue
-            elif field in self._current.keys():
-                continue
-            else:
-                try:
-                    if '__' in field:
-                        fields = field.split('__')
-                        value = obj
-                        for f in fields:
-                            value = getattr(value, f)
-                        if value != obj and isinstance(value, JSON_ALLOWED_OBJECTS) or value == None:
-                            self._current[field] = value
+class SignupSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=255)
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
 
-                except AttributeError:
-                    pass
-        super(CustomSerializer, self).end_object(obj)
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['email'],
+            email=validated_data['email'],
+            password=validated_data['password'],
+            first_name=validated_data['name']
+        )
+        return user

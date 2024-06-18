@@ -66,3 +66,77 @@ class ChatRoomView(LoginRequiredMixin, View):
 
         context = {'recipient': recipient, 'messages': messages , 'room_name': room_name }
         return render(request, 'chat/private_chat.html', context)
+
+# create a post requet using api for sign up  using   djanog auth  taking email,name , password
+
+
+
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
+from .serializers import UserSerializer, LoginSerializer,SignupSerializer
+
+
+
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
+
+class SignupView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = SignupSerializer(data=request.data)
+        if serializer.is_valid():
+            user = User.objects.create_user(
+                username=serializer.validated_data['email'],
+                email=serializer.validated_data['email'],
+                password=serializer.validated_data['password'],
+                first_name=serializer.validated_data['name']
+            )
+            tokens = get_tokens_for_user(user)
+            return Response({
+                'tokens': tokens,
+                'user': {
+                    'id': user.id,
+                    'username': user.username,
+                    'email': user.email
+                }
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LoginView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = LoginSerializer(data=request.data)
+
+
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+            password = serializer.validated_data['password']
+            # print email and password
+            print(email)
+            print(password)
+            try:
+                user = User.objects.get(email=email)
+
+            except User.DoesNotExist:
+                return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+            # print(user.username)
+            user = authenticate(username=user.username, password=password)
+    
+            if user is not None:
+                tokens = get_tokens_for_user(user)
+                return Response({
+                    'tokens': tokens,
+                    'user': {
+                        'id': user.id,
+                        'username': user.username,
+                        'email': user.email
+                    }
+                }, status=status.HTTP_200_OK)
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

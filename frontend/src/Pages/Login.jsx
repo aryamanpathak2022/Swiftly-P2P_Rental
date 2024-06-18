@@ -1,12 +1,48 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css'; // Importing CSS file for Login styles
 import loginImage from '../Assests/sign_up.jpg'; // Importing image for the right section
 import googleLogo from '../Assests/google.png'; // Importing Google logo
 import facebookLogo from '../Assests/Facebook.jpeg'; // Importing Facebook logo
 import githubLogo from '../Assests/github-logo.png'; // Importing GitHub logo
 
+// impport useHistory
+// import { useHistory } from 'react-router-dom';
+
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const Navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    setError('');
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/swiftly/loginn/', {
+        email,
+        password
+      });
+
+      if (response.status === 200) {
+        // Save the tokens and user info
+        localStorage.setItem('accessToken', response.data.tokens.access);
+        localStorage.setItem('refreshToken', response.data.tokens.refresh);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+
+        
+        // Redirect to the home page or another page
+        Navigate('/dashboard');
+        // print login successfull
+        console.log('Login Successfull');
+      }
+    } catch (error) {
+      setError('Invalid email or password');
+    }
+  };
+
   return (
     <div className="login-container">
       <div className="login-left">
@@ -32,12 +68,24 @@ const Login = () => {
             <span className="or-text">or</span>
             <span className="line"></span>
           </div>
-          <form className="login-form">
-            
-            <input type="email" placeholder="Email" className="login-input" />
-            <input type="password" placeholder="Password" className="login-input" />
+          <form className="login-form" onSubmit={handleLogin}>
+            <input
+              type="email"
+              placeholder="Email"
+              className="login-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="login-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <button type="submit" className="login-button">Login</button>
           </form>
+          {error && <p className="error-message">{error}</p>}
           <p className="forgot-password"><Link to="/forgot-password">Forgot Password?</Link></p>
         </div>
       </div>
