@@ -63,6 +63,14 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
 }
+# set expiry of token
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+# manual
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

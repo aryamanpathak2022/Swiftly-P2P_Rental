@@ -1,50 +1,53 @@
 import React from 'react';
-import Sidebar from '../Components/Sidebar';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
-function Dashboard () {
-  // Sample data for the table
-  const sampleData = [
-    { itemName: "Item 1", rentedOn: "2024-06-10", enteredTill: "2024-06-15", rentedBy: "User A", rentPerDay: "$10" },
-    { itemName: "Item 2", rentedOn: "2024-06-08", enteredTill: "2024-06-12", rentedBy: "User B", rentPerDay: "$15" },
-    // Add more sample data as needed
-  ];
+function createData(name, calories, fat, carbs, protein) {
+  return { name, calories, fat, carbs, protein };
+}
 
+const rows = [
+  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+  createData('Eclair', 262, 16.0, 24, 6.0),
+  createData('Cupcake', 305, 3.7, 67, 4.3),
+  createData('Gingerbread', 356, 16.0, 49, 3.9),
+];
+
+function Dashboard() {
   return (
-    <div style={{ display: 'flex',flex_direction:'row' }}>
-      <Sidebar name="John Doe" location="New York, USA" />
-     
-      {/* Main content */}
-      <div style={{ }}>
-        {/* Your main content here */}
-      </div>
-
-      {/* Sidebar with table */}
-      <div style={{ padding: '10px' }}>
-        <table style={{ width: '230%', borderCollapse: 'collapse',margin:'0 0 0 20px' }}>
-          <thead>
-            <tr>
-              <th style={{ border: '5px solid black', padding: '8px' }}>Item Name</th>
-              <th style={{ border: '5px solid black', padding: '8px' }}>Rented On</th>
-              <th style={{ border: '5px solid black', padding: '8px' }}>Entered Till</th>
-              <th style={{ border: '5px solid black', padding: '8px' }}>Rented By</th>
-              <th style={{ border: '5px solid black', padding: '8px' }}>Rent Per Day</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sampleData.map((item, index) => (
-              <tr key={index}>
-                <td style={{ border: '5px solid black', padding: '8px' }}>{item.itemName}</td>
-                <td style={{ border: '5px solid black', padding: '8px' }}>{item.rentedOn}</td>
-                <td style={{ border: '5px solid black', padding: '8px' }}>{item.enteredTill}</td>
-                <td style={{ border: '5px solid black', padding: '8px' }}>{item.rentedBy}</td>
-                <td style={{ border: '5px solid black', padding: '8px' }}>{item.rentPerDay}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Dessert (100g serving)</TableCell>
+            <TableCell align="right">Calories</TableCell>
+            <TableCell align="right">Fat&nbsp;(g)</TableCell>
+            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell align="right">{row.calories}</TableCell>
+              <TableCell align="right">{row.fat}</TableCell>
+              <TableCell align="right">{row.carbs}</TableCell>
+              <TableCell align="right">{row.protein}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
-};
+}
 
 export default Dashboard;

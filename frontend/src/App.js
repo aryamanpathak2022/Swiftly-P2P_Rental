@@ -12,6 +12,7 @@ import AccountPage from './Pages/AccountPage';
 import logo from './logo.svg';
 import ChatPage from './Pages/ChatPage';
 import Chatinside from './Pages/Chatinside';
+import ItemPage from './Pages/ItemPage';
 import './App.css';
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/AccountPage" element={<AccountPage />} />
             <Route path="/ChatPage" element={<ChatPage />} />
             <Route path="/Chatinside" element={<Chatinside />} />
+            <Route path="/ItemPage" element={<ItemPage />} />
 
 
             {/* <Route path="/account" element={<Account />} />

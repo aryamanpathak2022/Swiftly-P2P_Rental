@@ -22,7 +22,7 @@
         const messageInput = document.querySelector('#chat-message-input');
         const chatMessages = document.querySelector('#chat-messages');
         const roomName = "{{ room_name }}";
-        const socket = new WebSocket(`ws://${window.location.host}/ws/chat/private/${roomName}/`);
+        {% comment %} const socket = new WebSocket(`ws://${window.location.host}/ws/chat/private/${roomName}/`); {% endcomment %}
 
         socket.onmessage = function(e) {
             const data = JSON.parse(e.data);

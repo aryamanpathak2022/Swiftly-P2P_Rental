@@ -1,37 +1,56 @@
-import React, { useState } from 'react';
-import './ChatPage.css'; // Import your CSS file for styling
+import React, { useEffect, useState } from 'react';
+import WebSocketInstance from '../websockets/websocketService';
 
 const ChatPage = () => {
-    // Sample data for demonstration
-    const [chats, setChats] = useState([
-        { id: 1, name: 'John Doe', lastMessage: 'Hey there!', unreadMessages: 2 },
-        { id: 2, name: 'Jane Smith', lastMessage: 'How are you?', unreadMessages: 0 },
-        { id: 3, name: 'Alice Johnson', lastMessage: 'See you tomorrow!', unreadMessages: 1 },
-        // Add more sample data as needed
-    ]);
+    const [messages, setMessages] = useState([]);
+    const [message, setMessage] = useState('');
+    const roomName = '1_2';
+    
+    useEffect(() => {
+        console.log("Connecting to WebSocket...");
+        WebSocketInstance.connect(roomName);
 
-    const handleChatClick = (chatId) => {
-        // Logic to handle opening the chat for the selected person
+        WebSocketInstance.addCallbacks((data) => {
+            console.log("Message received: ", data);
+            setMessages((prevMessages) => [...prevMessages, data]);
+        });
+
+        return () => {
+            console.log("Disconnecting from WebSocket...");
+            WebSocketInstance.disconnect();
+        };
+    }, [roomName]);
+
+    const sendMessage = (e) => {
+        e.preventDefault();
+        const username = JSON.parse(localStorage.getItem('user'))?.username;
+        if (!username) {
+            console.error("Username not found in localStorage");
+            return;
+        }
+        WebSocketInstance.sendMessage({ message, senderUsername: username });
+        setMessage('');
     };
 
     return (
-        <div className="chat-page-container">
-            <h1 className='swiftly1'>Swiftly</h1>
-            <div className="chat-list-container">
-                <h2 className='heading'>Chats</h2>
-                <ul className="chat-list">
-                    {chats.map(chat => (
-                        <li key={chat.id} onClick={() => handleChatClick(chat.id)}>
-                            <div className="chat-item">
-                                <div className="chat-item-name">{chat.name}</div>
-                                <div className="chat-item-message">{chat.lastMessage}</div>
-                                {chat.unreadMessages > 0 && <div className="unread-badge">New Messages - {chat.unreadMessages}</div>}
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+        <div>
+            <h2>ChatPage Room {roomName}</h2>
+            <div>
+                {messages.map((msg, index) => (
+                    <div key={index}>
+                        <strong>{msg.senderUsername}</strong>: {msg.message}
+                    </div>
+                ))}
             </div>
-          
+            <form onSubmit={sendMessage}>
+                <input
+                    type="text"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    required
+                />
+                <button type="submit">Send</button>
+            </form>
         </div>
     );
 };
