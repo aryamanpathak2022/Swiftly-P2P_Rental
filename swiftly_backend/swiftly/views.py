@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Message
+from .models import Message,Product
 from django.shortcuts import get_object_or_404
+
 
 
 @login_required
@@ -140,3 +141,68 @@ class LoginView(APIView):
                 }, status=status.HTTP_200_OK)
             return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# crete all the function to add product,rent it to a person,returned product ,etc
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Product
+from .serializers import ProductSerializer
+from django.utils import timezone
+
+class ProductView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            product = Product.objects.create(
+                name=serializer.validated_data['name'],
+                per_day_rent=serializer.validated_data['per_day_rent'],
+                owner=request.user
+            )
+            return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, *args, **kwargs):
+        products = Product.objects.filter(is_active=True, is_deleted=False)
+        return Response(ProductSerializer(products, many=True).data, status=status.HTTP_200_OK)
+    
+
+class RentProductView(APIView):
+    def post(self, request, product_id, *args, **kwargs):
+        product = Product.objects.get(pk=product_id)
+        if product.is_active and not product.is_deleted and product.renter is None:
+            product.renter = request.user
+            product.save()
+            return Response(ProductSerializer(product).data, status=status.HTTP_200_OK)
+        return Response({'error': 'Product is not available for rent'}, status=status.HTTP_400_BAD_REQUEST)
+    
+class ReturnProductView(APIView):
+    def post(self, request, product_id, *args, **kwargs):
+        product = Product.objects.get(pk=product_id)
+        if product.is_active and not product.is_deleted and product.renter == request.user:
+            product.renter = None
+            product.save()
+            return Response(ProductSerializer(product).data, status=status.HTTP_200_OK)
+        return Response({'error': 'Product is not rented by you'}, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteProductView(APIView):
+    def post(self, request, product_id, *args, **kwargs):
+        product = Product.objects.get(pk=product_id)
+        if product.is_active and not product.is_deleted and product.owner == request.user:
+            product.is_deleted = True
+            product.deleted_at = timezone.now()
+            product.save()
+            return Response(ProductSerializer(product).data, status=status.HTTP_200_OK)
+        return Response({'error': 'Product is not owned by you'}, status=status.HTTP_400_BAD_REQUEST)
+
+class MyProductsView(APIView):
+    def get(self, request, *args, **kwargs):
+        products = Product.objects.filter(owner=request.user, is_active=True, is_deleted=False)
+        return Response(ProductSerializer(products, many=True).data, status=status.HTTP_200_OK)
+
+class RentedProductsView(APIView):
+    def get(self, request, *args, **kwargs):
+        products = Product.objects.filter(renter=request.user, is_active=True, is_deleted=False)
+        return Response(ProductSerializer(products, many=True).data, status=status.HTTP_200_OK)
+

@@ -1,6 +1,6 @@
 from django.urls import path
 from swiftly import views
-from swiftly.views import SignupView, LoginView
+from swiftly.views import SignupView, LoginView,ProductView,MyProductsView,RentedProductsView,RentProductView,ReturnProductView,DeleteProductView
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -10,4 +10,13 @@ urlpatterns = [
     path('chat/<int:user_id>/', views.ChatRoomView.as_view(), name='private_chat'),
     path('signupp/', SignupView.as_view(), name='signup'),
     path('loginn/', LoginView.as_view(), name='login'),
+    # create all product urls
+    path('product/', ProductView.as_view(), name='product'),
+    path('my-products/', MyProductsView.as_view(), name='my_products'),
+    path('rented-products/', RentedProductsView.as_view(), name='rented_products'),
+    path('rent-product/<int:product_id>/', RentProductView.as_view(), name='rent_product'),
+    path('return-product/<int:product_id>/', ReturnProductView.as_view(), name='return_product'),
+    path('delete-product/<int:product_id>/', DeleteProductView.as_view(), name='delete_product'),
+    
+
 ]

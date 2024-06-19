@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from .models import Product
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,3 +35,28 @@ class SignupSerializer(serializers.Serializer):
             first_name=validated_data['name']
         )
         return user
+    
+# # crete product serializer
+# this is the model class Product(models.Model):
+#     name = models.CharField(max_length=255)
+#     per_day_rent = models.DecimalField(max_digits=10, decimal_places=2)
+#     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_products')
+#     renter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rented_products', null=True, blank=True)
+#     rented_on = models.DateTimeField(null=True, blank=True)
+#     returned_on = models.DateTimeField(null=True, blank=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     is_active = models.BooleanField(default=True)
+#     is_deleted = models.BooleanField(default=False)
+#     deleted_at = models.DateTimeField(null=True, blank=True)
+
+#     def __str__(self):
+#         return self.name
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
+        read_only_fields = ('owner', 'is_active', 'is_deleted', 'deleted_at', 'created_at', 'updated_at')
+
+    

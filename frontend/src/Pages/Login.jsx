@@ -7,12 +7,10 @@ import googleLogo from '../Assests/google.png'; // Importing Google logo
 import facebookLogo from '../Assests/Facebook.jpeg'; // Importing Facebook logo
 import githubLogo from '../Assests/github-logo.png'; // Importing GitHub logo
 
-// impport useHistory
-// import { useHistory } from 'react-router-dom';
-
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const Navigate = useNavigate();
 
@@ -32,15 +30,18 @@ const Login = () => {
         localStorage.setItem('refreshToken', response.data.tokens.refresh);
         localStorage.setItem('user', JSON.stringify(response.data.user));
 
-        
         // Redirect to the home page or another page
         Navigate('/dashboard');
-        // print login successfull
-        console.log('Login Successfull');
+        // print login successful
+        console.log('Login Successful');
       }
     } catch (error) {
       setError('Invalid email or password');
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -76,13 +77,22 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <input
-              type="password"
-              placeholder="Password"
-              className="login-input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="password-container">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                className="login-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="toggle-password-button"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
             <button type="submit" className="login-button">Login</button>
           </form>
           {error && <p className="error-message">{error}</p>}

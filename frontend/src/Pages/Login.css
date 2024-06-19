@@ -129,3 +129,22 @@
     border-radius: 20px;
   }
   
+
+  .password-container {
+    position: relative;
+  }
+  
+  .toggle-password-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #007bff;
+  }
+  
+  .toggle-password-button:focus {
+    outline: none;
+  }
