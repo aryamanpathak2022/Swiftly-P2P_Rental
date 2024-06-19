@@ -5,15 +5,21 @@ const ChatPage = () => {
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
     const roomName = '1_2';
-    
+
     useEffect(() => {
         console.log("Connecting to WebSocket...");
         WebSocketInstance.connect(roomName);
 
-        WebSocketInstance.addCallbacks((data) => {
-            console.log("Message received: ", data);
-            setMessages((prevMessages) => [...prevMessages, data]);
-        });
+        WebSocketInstance.addCallbacks(
+            (data) => {
+                console.log("Message received: ", data);
+                setMessages((prevMessages) => [...prevMessages, data.message]);
+            },
+            (data) => {
+                console.log("Chat history received: ", data);
+                setMessages(data.history);
+            }
+        );
 
         return () => {
             console.log("Disconnecting from WebSocket...");
@@ -38,7 +44,7 @@ const ChatPage = () => {
             <div>
                 {messages.map((msg, index) => (
                     <div key={index}>
-                        <strong>{msg.senderUsername}</strong>: {msg.message}
+                        <strong>{msg.senderUsername}</strong>: {msg}
                     </div>
                 ))}
             </div>

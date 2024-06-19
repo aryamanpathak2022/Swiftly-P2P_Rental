@@ -54,6 +54,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()  # Accept the connection
 
+        messages = await self.fetch_messages()
+        print(messages)
+        for message in messages:
+            await self.send(text_data=json.dumps(message))
+
     # async def disconnect(self, close_code):
     #     # Remove consumer from channel layer group
 
@@ -98,3 +103,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def save_message(self, sender, recipient, message):
         Message.objects.create(sender=sender, recipient=recipient, message=message, thread_name=self.room_name)
+
+    from datetime import datetime
+
+    @database_sync_to_async
+    def fetch_messages(self):
+        messages = Message.objects.filter(thread_name=self.room_name).order_by('timestamp').values('sender__username', 'message', 'timestamp')
+        return [
+        {
+            'sender__username': msg['sender__username'],
+            'message': msg['message'],
+            'timestamp': msg['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
+        } for msg in messages
+    ]
+
