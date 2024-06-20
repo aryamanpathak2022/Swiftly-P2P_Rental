@@ -54,9 +54,14 @@ class SignupSerializer(serializers.Serializer):
 #         return self.name
 
 class ProductSerializer(serializers.ModelSerializer):
+
+    product_image=serializers.ImageField(required=False)
     class Meta:
         model = Product
         fields = '__all__'
-        read_only_fields = ('owner', 'is_active', 'is_deleted', 'deleted_at', 'created_at', 'updated_at')
+        read_only_fields = ('owner', 'is_active', 'is_deleted', 'deleted_at', 'created_at', 'updated_at','product_image')
+        # print product_image
+        # print("hello")
+        # print(model.product_image)
 
     

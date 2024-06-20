@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../Components/Sidebar';
 import './AccountPage.css'; // Import CSS file
 
 function AccountPage() {
-  // Sample account information
   const [editing, setEditing] = useState(false);
-  const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("johndoe@example.com");
-  const [address, setAddress] = useState("New York, USA");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('New York, USA');
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setName(user.username);
+      setEmail(user.email);
+    }
+  }, []);
 
   const handleEditClick = () => {
     setEditing(true);
@@ -17,13 +24,15 @@ function AccountPage() {
     // Save the edited values
     setEditing(false);
     // You can implement the logic to save these values to the server here
+    const updatedUser = { name, email, address };
+    localStorage.setItem('user', JSON.stringify(updatedUser));
   };
 
   return (
     <div className="account-page">
       <Sidebar name={name} location={address} />
       <div className="account-info">
-      <h2 style={{fontSize:'50px', border:'black', textDecoration: 'underline'}}>Account Information</h2>
+        <h2 style={{fontSize:'50px', border:'black', textDecoration: 'underline'}}>Account Information</h2>
     
         {editing ? (
           <div>

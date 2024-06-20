@@ -1,5 +1,7 @@
 import React from 'react';
 import './Sidebar.css';
+// import link
+import { Link } from 'react-router-dom';
 
 
 // set location from the local storage user.location
@@ -23,12 +25,14 @@ const username=name.split('"')[5];
         <p className="location">{location}</p>
       </div>
       <div className="nav-buttons">
-        <button className="nav-button">Account</button>
-        <button className="nav-button">Items Rented</button>
-        <button className="nav-button">Lent new items</button>
-        <button className="nav-button">Item Lented</button>
-        <button className="nav-button">Help & Support</button>
-        <button className="nav-button logout-button">Log Out</button>
+        <Link to ="/AccountPage" className="nav-button">
+          Account</Link>
+
+        <Link to = "/Lend_new_item" className="nav-button">Items Rented</Link>
+        <Link to = "/account" className="nav-button">Lent new items</Link>
+        <Link to = "/account"  className="nav-button">Item Lented</Link>
+        <Link to = "/account" className="nav-button">Help & Support</Link>
+        <Link to = "/account" className="nav-button logout-Link">Log Out</Link>
 
         
       </div>

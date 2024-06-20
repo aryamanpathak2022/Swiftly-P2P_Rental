@@ -158,15 +158,22 @@ class ProductView(APIView):
             product = Product.objects.create(
                 name=serializer.validated_data['name'],
                 per_day_rent=serializer.validated_data['per_day_rent'],
-                owner=request.user
+                owner=request.user,
+                product_image=serializer.validated_data.get('product_image'),
+                # product_image=request.FILES.get('photo'),
+
+                  # Handle the image
             )
+            print(request.FILES.get('product_image'))
+            print(serializer.validated_data.get('product_image'))
+            print(serializer)
+        
             return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, *args, **kwargs):
         products = Product.objects.filter(is_active=True, is_deleted=False)
         return Response(ProductSerializer(products, many=True).data, status=status.HTTP_200_OK)
-    
 
 class RentProductView(APIView):
     def post(self, request, product_id, *args, **kwargs):
