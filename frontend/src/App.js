@@ -14,6 +14,8 @@ import ChatPage from './Pages/ChatPage';
 import Chatinside from './Pages/Chatinside';
 import ItemPage from './Pages/ItemPage';
 import Lend_new_item from './Pages/Lend_new_item';
+import Lented_items from './Pages/Lented_items';
+
 import './App.css';
 
 function App() {
@@ -31,6 +33,7 @@ function App() {
             <Route path="/Chatinside" element={<Chatinside />} />
             <Route path="/ItemPage" element={<ItemPage />} />
             <Route path="/Lend_new_item" element={<Lend_new_item />} />
+            <Route path="/Lented_items" element={<Lented_items />} />
 
 
             {/* <Route path="/account" element={<Account />} />

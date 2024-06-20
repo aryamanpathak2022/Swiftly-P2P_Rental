@@ -30,7 +30,7 @@ const username=name.split('"')[5];
 
         <Link to = "/Lend_new_item" className="nav-button">Items Rented</Link>
         <Link to = "/account" className="nav-button">Lent new items</Link>
-        <Link to = "/account"  className="nav-button">Item Lented</Link>
+        <Link to = "/Lented_items"  className="nav-button">Item Lented</Link>
         <Link to = "/account" className="nav-button">Help & Support</Link>
         <Link to = "/account" className="nav-button logout-Link">Log Out</Link>
 
