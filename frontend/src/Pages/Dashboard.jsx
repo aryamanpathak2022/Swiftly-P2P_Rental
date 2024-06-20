@@ -6,6 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+// form components inport Sidebar.jsx
+import Sidebar from '../Components/Sidebar';
+// Sidebar.css
+import './Dashboard.css';
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -21,7 +25,9 @@ const rows = [
 
 function Dashboard() {
   return (
-    <TableContainer component={Paper}>
+    <div className='outerdiv' >
+    <Sidebar />
+    <TableContainer className='table' component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -47,6 +53,7 @@ function Dashboard() {
         </TableBody>
       </Table>
     </TableContainer>
+    </div>
   );
 }
 

@@ -15,8 +15,11 @@
     position: relative;
     font-size: 74px;
     font-weight: normal;
-    top: -20px;
-    left: -200px;
+    /* top: -20px;
+    left: -200px; */
+    /* move it to left but make it responsive */
+
+
     font-family: "Grand Hotel", cursive;
   }
   
@@ -78,7 +81,9 @@
   
   .logout-button {
     position: relative;
-    margin-left: 190px;
-    bottom: 0px;
+   /* make it at bottom of the page with responsive nature */
+    bottom: 0;
+    
+
   }
   
