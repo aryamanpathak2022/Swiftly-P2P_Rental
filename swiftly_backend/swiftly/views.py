@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Message,Product
 from django.shortcuts import get_object_or_404
+from rest_framework import permissions
+from .models import Transaction
 
 
 
@@ -78,7 +80,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer, LoginSerializer,SignupSerializer
+from .serializers import UserSerializer, LoginSerializer,SignupSerializer,TransactionSerializer
 
 
 
@@ -172,15 +174,27 @@ class ProductView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, *args, **kwargs):
-        products = Product.objects.filter(is_active=True, is_deleted=False)
+        products = Product.objects.filter(is_active=True, is_deleted=False,renter=None)
         return Response(ProductSerializer(products, many=True).data, status=status.HTTP_200_OK)
 
 class RentProductView(APIView):
     def post(self, request, product_id, *args, **kwargs):
         product = Product.objects.get(pk=product_id)
+       
         if product.is_active and not product.is_deleted and product.renter is None:
             product.renter = request.user
+            product.rented_at = timezone.now()
             product.save()
+            Transaction.objects.create(
+                owner=product.owner,
+                renter=request.user,
+
+                product=product,
+                transaction_type='rent'
+
+            )
+            
+
             return Response(ProductSerializer(product).data, status=status.HTTP_200_OK)
         return Response({'error': 'Product is not available for rent'}, status=status.HTTP_400_BAD_REQUEST)
     
@@ -190,6 +204,12 @@ class ReturnProductView(APIView):
         if product.is_active and not product.is_deleted and product.renter == request.user:
             product.renter = None
             product.save()
+            Transaction.objects.create(
+                owner=product.owner,
+                renter=request.user,
+                product=product,
+                transaction_type='return'
+            )
             return Response(ProductSerializer(product).data, status=status.HTTP_200_OK)
         return Response({'error': 'Product is not rented by you'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -213,3 +233,25 @@ class RentedProductsView(APIView):
         products = Product.objects.filter(renter=request.user, is_active=True, is_deleted=False)
         return Response(ProductSerializer(products, many=True).data, status=status.HTTP_200_OK)
 
+# # views for class Transaction(models.Model):
+#     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_products')
+#     renter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rented_products', null=True, blank=True)
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+#     transaction_date = models.DateTimeField(default=timezone.now)
+#     transaction_type = models.CharField(max_length=10, choices=[('rent', 'Rent'), ('return', 'Return')])
+
+#     def __str__(self):
+#         return f"{self.user.username} - {self.product.name} - {self.transaction_type} - {self.transaction_date}"
+
+
+
+
+class TransactionView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request, *args, **kwargs):
+        # owner is user or renter is user
+        transactions = Transaction.objects.filter(owner=request.user) | Transaction.objects.filter(renter=request.user)
+      
+        return Response(TransactionSerializer(transactions, many=True).data, status=status.HTTP_200_OK)
+    

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Product
+from .models import Product,Transaction
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -65,3 +65,30 @@ class ProductSerializer(serializers.ModelSerializer):
         # print(model.product_image)
 
     
+
+# # create transaction serializer
+# class Transaction(models.Model):
+#     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_products')
+#     renter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rented_products', null=True, blank=True)
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+#     transaction_date = models.DateTimeField(default=timezone.now)
+#     transaction_type = models.CharField(max_length=10, choices=[('rent', 'Rent'), ('return', 'Return')])
+
+#     def __str__(self):
+#         # return f"{self.user.username} - {self.product.name} - {self.transaction_type} - {self.transaction_date}"
+
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        owner = serializers.PrimaryKeyRelatedField(read_only=True)
+        renter = serializers.PrimaryKeyRelatedField(read_only=True)
+        model = Transaction
+        fields = '__all__'
+        read_only_fields = ('owner', 'transaction_date', 'transaction_type')
+    
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['owner'] = instance.owner.username  # Or any other field of User model you want to display
+        if instance.renter:
+            rep['renter'] = instance.renter.username  # Or any other field of User model you want to display
+        return rep
+        

@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ItemPage.css';
-
-const sampleItems = [
-  { id: 1, name: 'Item 1', price: 29.99, category: 'Category 1', image: 'https://via.placeholder.com/150' },
-  { id: 2, name: 'Item 2', price: 39.99, category: 'Category 2', image: 'https://via.placeholder.com/150' },
-  { id: 3, name: 'Item 3', price: 19.99, category: 'Category 1', image: 'https://via.placeholder.com/150' },
-  { id: 4, name: 'Item 4', price: 49.99, category: 'Category 3', image: 'https://via.placeholder.com/150' },
-  // Add more items as needed
-];
+import axios from 'axios';
 
 const ItemPage = () => {
-  const [items, setItems] = useState(sampleItems);
+  const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+
+  useEffect(() => {
+    // Fetch items from the API
+    const fetchItems = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/swiftly/product/');
+        setItems(response.data);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+      }
+    };
+
+    fetchItems();
+  }, []);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -22,12 +29,41 @@ const ItemPage = () => {
     setSelectedCategory(e.target.value);
   };
 
+  const handleRentProduct = async (productId) => {
+    const token = localStorage.getItem('accessToken'); // Assuming the JWT token is stored in local storage
+    if (!token) {
+      alert('User not logged in');
+      return;
+    }
+
+    try {
+      await axios.post(
+        `http://127.0.0.1:8000/swiftly/rent-product/${productId}/`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert('Product rented successfully');
+      // Refresh items
+      const response = await axios.get('http://127.0.0.1:8000/swiftly/product/');
+      setItems(response.data);
+    } catch (error) {
+      console.error('Error renting product:', error);
+      alert('Error renting product');
+    }
+  };
+
   const filteredItems = items.filter(item => {
     return (
       (item.name.toLowerCase().includes(searchTerm.toLowerCase()) || item.category.toLowerCase().includes(searchTerm.toLowerCase())) &&
       (selectedCategory === 'All' || item.category === selectedCategory)
     );
   });
+
+  const baseURL = 'http://localhost:8000'; 
 
   return (
     <div className="item-page">
@@ -49,10 +85,13 @@ const ItemPage = () => {
       <div className="item-grid">
         {filteredItems.map(item => (
           <div key={item.id} className="item-card">
-            <img src={item.image} alt={item.name} className="item-image" />
+            <img src={`${baseURL}${item.product_image}`} alt={item.name} className="item-image" />
             <div className="item-details">
               <h3 className="item-name">{item.name}</h3>
-              <p className="item-price">${item.price.toFixed(2)}</p>
+              <p className="item-price">${item.per_day_rent}</p>
+              <button onClick={() => handleRentProduct(item.id)} className="rent-button">
+                Rent
+              </button>
             </div>
           </div>
         ))}
