@@ -7,6 +7,8 @@ import './Chat.css';
 const Chat = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [noUserFoundMessage, setNoUserFoundMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSearch = async () => {
@@ -14,6 +16,7 @@ const Chat = () => {
       const token = localStorage.getItem('accessToken');
       if (!token) {
         console.error('Access token not found in localStorage.');
+        setErrorMessage('Access token not found. Please log in.');
         return;
       }
 
@@ -25,10 +28,18 @@ const Chat = () => {
       };
 
       const response = await axios.post('http://127.0.0.1:8000/swiftly/search/', { username: searchTerm }, config);
+      
+      if (response.data.users.length === 0) {
+        setNoUserFoundMessage('No user found.');
+      } else {
+        setNoUserFoundMessage('');
+      }
+
       setSearchResults(response.data.users);
-      console.log(response.data.users)
+      setErrorMessage(''); // Clear any previous errors
     } catch (error) {
       console.error('Error searching users:', error);
+      setErrorMessage('Error searching users. Please try again later.');
     }
   };
 
@@ -54,6 +65,8 @@ const Chat = () => {
       <Button variant="contained" color="primary" onClick={handleSearch}>
         Search
       </Button>
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      {noUserFoundMessage && <div className="no-user-message">{noUserFoundMessage}</div>}
       <div className="search-results">
         {searchResults.map((user) => (
           <div key={user.id} className="user-item" onClick={() => redirectToChat(user.id)}>

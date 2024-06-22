@@ -57,8 +57,10 @@ const ItemPage = () => {
   };
 
   const filteredItems = items.filter(item => {
+    const itemName = item.name?.toLowerCase() || '';
+    const itemCategory = item.category?.toLowerCase() || '';
     return (
-      (item.name.toLowerCase().includes(searchTerm.toLowerCase()) || item.category.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (itemName.includes(searchTerm.toLowerCase()) || itemCategory.includes(searchTerm.toLowerCase())) &&
       (selectedCategory === 'All' || item.category === selectedCategory)
     );
   });

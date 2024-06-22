@@ -26,7 +26,7 @@ body {
   .item-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    gap: 60px;
   }
   
   /* Individual item card */
@@ -36,10 +36,12 @@ body {
     overflow: hidden;
     background: #fff;
     transition: transform 0.2s;
+   
   }
   
   .item-card:hover {
     transform: translateY(-5px);
+    
   }
   
   .item-image {
