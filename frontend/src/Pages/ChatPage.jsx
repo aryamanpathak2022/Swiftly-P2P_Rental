@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import WebSocketInstance from '../websockets/websocketService';
 import { useParams } from 'react-router-dom';
+import './ChatPage.css';  // Make sure to import the CSS file
 
 const ChatPage = () => {
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
     const { roomName } = useParams();
+    const username = JSON.parse(localStorage.getItem('user'))?.username;
 
     useEffect(() => {
         console.log("Connecting to WebSocket...");
@@ -30,7 +32,6 @@ const ChatPage = () => {
 
     const sendMessage = (e) => {
         e.preventDefault();
-        const username = JSON.parse(localStorage.getItem('user'))?.username;
         if (!username) {
             console.error("Username not found in localStorage");
             return;
@@ -40,23 +41,27 @@ const ChatPage = () => {
     };
 
     return (
-        <div>
-            <h2>ChatPage Room {roomName}</h2>
-            <div>
+        <div className="chat-page-container">
+            <div className="chat-header">
+                <h2 className="chat-room-name">Room: {roomName}</h2>
+            </div>
+            <div className="chat-messages">
                 {messages.map((msg, index) => (
-                    <div key={index}>
+                    <div key={index} className={`chat-message ${msg.senderUsername === username ? 'my-message' : 'other-message'}`}>
                         <strong>{msg.senderUsername}</strong>: {msg}
                     </div>
                 ))}
             </div>
-            <form onSubmit={sendMessage}>
+            <form className="chat-form" onSubmit={sendMessage}>
                 <input
                     type="text"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
+                    className="chat-input"
+                    placeholder="Type your message..."
                     required
                 />
-                <button type="submit">Send</button>
+                <button type="submit" className="chat-button">Send</button>
             </form>
         </div>
     );
