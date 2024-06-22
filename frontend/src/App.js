@@ -15,6 +15,8 @@ import Chatinside from './Pages/Chatinside';
 import ItemPage from './Pages/ItemPage';
 import Lend_new_item from './Pages/Lend_new_item';
 import Lented_items from './Pages/Lented_items';
+import Chat from './Pages/Chat';
+
 
 import './App.css';
 
@@ -29,12 +31,12 @@ function App() {
              <Route path="/Signup" element={<Signup />} />
             <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/AccountPage" element={<AccountPage />} />
-            <Route path="/ChatPage" element={<ChatPage />} />
+            <Route path="/chatPage/:roomName" element={<ChatPage />} />
             <Route path="/Chatinside" element={<Chatinside />} />
             <Route path="/ItemPage" element={<ItemPage />} />
             <Route path="/Lend_new_item" element={<Lend_new_item />} />
             <Route path="/Lented_items" element={<Lented_items />} />
-
+            <Route path="/Chat" element={<Chat />} />
 
             {/* <Route path="/account" element={<Account />} />
             <Route path="/product" element={<Product />} />

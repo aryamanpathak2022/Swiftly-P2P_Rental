@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import WebSocketInstance from '../websockets/websocketService';
+import { useParams } from 'react-router-dom';
 
 const ChatPage = () => {
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
-    const roomName = '1_2';
+    const { roomName } = useParams();
 
     useEffect(() => {
         console.log("Connecting to WebSocket...");

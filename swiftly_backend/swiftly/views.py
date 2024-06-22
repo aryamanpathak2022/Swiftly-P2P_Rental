@@ -6,6 +6,8 @@ from .models import Message,Product
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions
 from .models import Transaction
+from django.http import JsonResponse
+import json
 
 
 
@@ -33,15 +35,25 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-@login_required
-def search_user(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        users = User.objects.filter(username__icontains=username).exclude(username=request.user.username)
-        return render(request, 'search_user.html', {'users': users})
-    else:
-        return render(request, 'search_user.html')
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from .serializers import UserSerializer
+class SearchUserAPIView(APIView):
+    
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username', '')
+
+        # Filter users based on username (case insensitive) and exclude current user
+        users = User.objects.filter(username__icontains=username).exclude(username=request.user.username)
+
+        # Serialize queryset of users
+        serializer = UserSerializer(users, many=True)
+
+        # Return serialized data in JSON response
+        return Response({'users': serializer.data}, status=status.HTTP_200_OK)
+    
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404

@@ -1,0 +1,26 @@
+.chat-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .user-item {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+  }
+  
+  .user-item:hover {
+    background-color: #e0e0e0;
+  }
+  
