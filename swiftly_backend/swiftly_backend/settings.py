@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'daphne' , 
      'corsheaders',
+    'django.contrib.sites',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -46,12 +47,19 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'allauth.socialaccount.providers.google',
+    'channels',
+     
+
 
     
     
     
 ]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 SITE_ID = 1
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -105,7 +113,16 @@ ROOT_URLCONF = "swiftly_backend.urls"
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+]
+# allowed csrf 
+CORS_ALLOW_CREDENTIALS = True
+
 
 import os
 
@@ -217,4 +234,9 @@ import os
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+BASE_APP_URL = "http://localhost:3000"
+BASE_API_URL = "http://localhost:8000"
+GOOGLE_OAUTH2_CLIENT_ID = "1092169679921-gbke160a6ldke2kv1ufrvki6njsm4778.apps.googleusercontent.com"
+GOOGLE_OAUTH2_CLIENT_SECRET = "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"
 
+CSRF_COOKIE_SECURE = True
