@@ -113,7 +113,7 @@ ROOT_URLCONF = "swiftly_backend.urls"
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    'swiftly-p2p-rental.onrender.com'
+    "https://swiftly-p2p-rental.onrender.com",
     
 ]
 
