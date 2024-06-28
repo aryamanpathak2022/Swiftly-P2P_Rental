@@ -242,3 +242,7 @@ GOOGLE_OAUTH2_CLIENT_ID = "1092169679921-gbke160a6ldke2kv1ufrvki6njsm4778.apps.g
 GOOGLE_OAUTH2_CLIENT_SECRET = "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"
 
 CSRF_COOKIE_SECURE = True
+
+ALLOWED_HOSTS =[
+    "https://swiftly-p2p-rental.onrender.com",  
+]
