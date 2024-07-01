@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     
     
 ]
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 SITE_ID = 1
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -245,4 +244,6 @@ CSRF_COOKIE_SECURE = True
 
 ALLOWED_HOSTS =[
     "https://swiftly-p2p-rental.onrender.com",  
+
 ]
+
