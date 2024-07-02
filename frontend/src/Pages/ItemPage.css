@@ -1,66 +1,179 @@
-/* General styles */
+/* styles.css */
+
+:root {
+  --background: #fff;
+  --foreground: #222;
+  --card: #fff;
+  --card-foreground: #222;
+  --popover: #fff;
+  --popover-foreground: #222;
+  --primary: #393e46;
+  --primary-foreground: #fff;
+  --secondary: #f2f2f2;
+  --secondary-foreground: #393e46;
+  --muted: #f2f2f2;
+  --muted-foreground: #757575;
+  --accent: #f2f2f2;
+  --accent-foreground: #393e46;
+  --destructive: #e63946;
+  --destructive-foreground: #fff;
+  --border: #d1d1d1;
+  --input: #d1d1d1;
+  --ring: #393e46;
+  --radius: 0.5rem;
+}
+
 body {
-    font-family: Arial, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', sans-serif;
+}
+
+input[type="search"] {
+  padding-left: 2rem; /* Adjust as needed */
+  border: 1px solid var(--input);
+  border-radius: var(--radius);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+button {
+  background-color: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.bg-background {
+  background-color: var(--background);
+}
+
+.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.rounded-lg {
+  border-radius: var(--radius);
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.h-48 {
+  height: 12rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-9 {
+  height: 2.25rem;
+}
+
+.max-w-md {
+  max-width: 28rem;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.left-2.5 {
+  left: 0.625rem;
+}
+
+.top-2.5 {
+  top: 0.625rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .sm\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .item-page {
-    padding: 20px;
+}
+
+@media (min-width: 768px) {
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  /* Filters */
-  .filters {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
   }
-  
-  .search-bar,
-  .category-filter {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 45%;
-  }
-  
-  /* Grid container */
-  .item-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 60px;
-  }
-  
-  /* Individual item card */
-  .item-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #fff;
-    transition: transform 0.2s;
-   
-  }
-  
-  .item-card:hover {
-    transform: translateY(-5px);
-    
-  }
-  
-  .item-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-  }
-  
-  .item-details {
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .item-name {
-    font-size: 1.2em;
-    margin: 10px 0;
-  }
-  
-  .item-price {
-    color: #888;
-  }
-  
+}

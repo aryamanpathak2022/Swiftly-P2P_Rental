@@ -1,105 +1,210 @@
-import React, { useState, useEffect } from 'react';
-import './ItemPage.css';
-import axios from 'axios';
+import React, { useState, useMemo } from "react";
+import "./ItemPage.css"; // Assuming you have styles.css for custom styles
 
-const ItemPage = () => {
-  const [items, setItems] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+const items = [
+  {
+    id: 1,
+    name: "Kayak",
+    price: 50,
+    category: "Outdoor",
+    renter: "John Doe",
+    image: "/placeholder.svg",
+  },
+  {
+    id: 2,
+    name: "Camping Gear",
+    price: 75,
+    category: "Outdoor",
+    renter: "Jane Smith",
+    image: "/placeholder.svg",
+  },
+  {
+    id: 3,
+    name: "DJ Equipment",
+    price: 100,
+    category: "Electronics",
+    renter: "Bob Johnson",
+    image: "/placeholder.svg",
+  },
+  {
+    id: 4,
+    name: "Party Supplies",
+    price: 25,
+    category: "Household",
+    renter: "Sarah Lee",
+    image: "/placeholder.svg",
+  },
+  {
+    id: 5,
+    name: "Power Tools",
+    price: 80,
+    category: "Tools",
+    renter: "Mike Brown",
+    image: "/placeholder.svg",
+  },
+  {
+    id: 6,
+    name: "Formal Wear",
+    price: 60,
+    category: "Clothing",
+    renter: "Emily Davis",
+    image: "/placeholder.svg",
+  },
+];
 
-  useEffect(() => {
-    // Fetch items from the API
-    const fetchItems = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/swiftly/product/');
-        setItems(response.data);
-      } catch (error) {
-        console.error('Error fetching items:', error);
-      }
-    };
+function Component() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filters, setFilters] = useState({
+    category: [],
+    price: {
+      min: 0,
+      max: 1000,
+    },
+  });
+  const [sortBy, setSortBy] = useState("featured");
 
-    fetchItems();
-  }, []);
+  const filteredItems = useMemo(() => {
+    return items
+      .filter((item) => {
+        if (filters.category.length > 0 && !filters.category.includes(item.category)) {
+          return false;
+        }
+        if (item.price < filters.price.min || item.price > filters.price.max) {
+          return false;
+        }
+        return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+      })
+      .sort((a, b) => {
+        switch (sortBy) {
+          case "featured":
+            return b.featured - a.featured;
+          case "low":
+            return a.price - b.price;
+          case "high":
+            return b.price - a.price;
+          default:
+            return 0;
+        }
+      });
+  }, [searchTerm, filters, sortBy]);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
-  };
-
-  const handleRentProduct = async (productId) => {
-    const token = localStorage.getItem('accessToken'); // Assuming the JWT token is stored in local storage
-    if (!token) {
-      alert('User not logged in');
-      return;
-    }
-
-    try {
-      await axios.post(
-        `http://127.0.0.1:8000/swiftly/rent-product/${productId}/`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      alert('Product rented successfully');
-      // Refresh items
-      const response = await axios.get('http://127.0.0.1:8000/swiftly/product/');
-      setItems(response.data);
-    } catch (error) {
-      console.error('Error renting product:', error);
-      alert('Error renting product');
+  const handleFilterChange = (type, value) => {
+    if (type === "category") {
+      setFilters({
+        ...filters,
+        category: filters.category.includes(value)
+          ? filters.category.filter((item) => item !== value)
+          : [...filters.category, value],
+      });
+    } else if (type === "price") {
+      setFilters({
+        ...filters,
+        price: {
+          ...filters.price,
+          [value.key]: value.val,
+        },
+      });
     }
   };
 
-  const filteredItems = items.filter(item => {
-    const itemName = item.name?.toLowerCase() || '';
-    const itemCategory = item.category?.toLowerCase() || '';
-    return (
-      (itemName.includes(searchTerm.toLowerCase()) || itemCategory.includes(searchTerm.toLowerCase())) &&
-      (selectedCategory === 'All' || item.category === selectedCategory)
-    );
-  });
-
-  const baseURL = 'http://localhost:8000'; 
+  const handleSort = (value) => {
+    setSortBy(value);
+  };
 
   return (
-    <div className="item-page">
-      <div className="filters">
-        <input
-          type="text"
-          placeholder="Search items..."
-          value={searchTerm}
-          onChange={handleSearch}
-          className="search-bar"
-        />
-        <select value={selectedCategory} onChange={handleCategoryChange} className="category-filter">
-          <option value="All">All Categories</option>
-          <option value="Category 1">Category 1</option>
-          <option value="Category 2">Category 2</option>
-          <option value="Category 3">Category 3</option>
-        </select>
+    <div className="container mx-auto py-8">
+      <div className="flex justify-between items-center mb-6">
+        <div className="relative w-full max-w-md">
+          <div className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <input
+            type="search"
+            placeholder="Search items..."
+            className="w-full rounded-lg bg-background pl-8"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => console.log("Open Filters Dropdown")}
+            className="h-9 gap-1 flex items-center border border-gray-300 rounded"
+          >
+            <FilterIcon className="h-4 w-4" />
+            <span>Filters</span>
+          </button>
+          <button
+            onClick={() => console.log("Open Sort Dropdown")}
+            className="h-9 gap-1 flex items-center border border-gray-300 rounded"
+          >
+            <ListOrderedIcon className="h-4 w-4" />
+            <span>Sort</span>
+          </button>
+        </div>
       </div>
-      <div className="item-grid">
-        {filteredItems.map(item => (
-          <div key={item.id} className="item-card">
-            <img src={`${baseURL}${item.product_image}`} alt={item.name} className="item-image" />
-            <div className="item-details">
-              <h3 className="item-name">{item.name}</h3>
-              <p className="item-price">${item.per_day_rent}</p>
-              <button onClick={() => handleRentProduct(item.id)} className="rent-button">
-                Rent
-              </button>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {filteredItems.map((item) => (
+          <div key={item.id} className="bg-background rounded-lg overflow-hidden shadow-sm">
+            <img src="/placeholder.svg" alt={item.name} className="w-full h-48 object-cover" />
+            <div className="p-4">
+              <h3 className="text-lg font-semibold">{item.name}</h3>
+              <p className="text-muted-foreground">Rented by {item.renter}</p>
+              <div className="flex justify-between items-center mt-4">
+                <span className="text-primary font-semibold">${item.price}/day</span>
+                <button className="text-sm">Rent Now</button>
+              </div>
             </div>
           </div>
         ))}
       </div>
     </div>
   );
-};
+}
 
-export default ItemPage;
+function FilterIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+    </svg>
+  );
+}
+
+function ListOrderedIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="10" x2="21" y1="6" y2="6" />
+      <line x1="10" x2="21" y1="12" y2="12" />
+      <line x1="10" x2="21" y1="18" y2="18" />
+      <path d="M4 6h1v4" />
+      <path d="M4 10h2" />
+      <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" />
+    </svg>
+  );
+}
+
+export default Component;
