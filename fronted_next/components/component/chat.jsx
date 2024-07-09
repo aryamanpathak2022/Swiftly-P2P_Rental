@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button"
 export function Chat() {
   return (
     (<div className="flex flex-col h-screen">
-      <div className="bg-background border-b border-muted p-4">
+      {/* <div className="bg-background border-b border-muted p-4">
         <div className="flex items-center gap-4">
           <Avatar className="w-8 h-8">
             <AvatarImage src="/placeholder-user.jpg" />
@@ -86,7 +86,7 @@ export function Chat() {
             className="flex-1 resize-none rounded-lg p-2 border border-muted focus:border-primary focus:ring-0" />
           <Button>Send</Button>
         </div>
-      </div>
+      </div> */}
     </div>)
   );
 }
