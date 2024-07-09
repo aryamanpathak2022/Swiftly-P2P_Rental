@@ -26,11 +26,11 @@ import { Button } from "@/components/ui/button"
 export function HANDS() {
   return (
     (<div className="w-full max-w-4xl mx-auto py-12 md:py-20">
-      <div className="space-y-4 text-center">
+      {/* <div className="space-y-4 text-center">
         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Help and Support</h1>
         <p className="text-muted-foreground md:text-xl">
           Find answers to your questions and get the help you need. Browse our FAQ or contact our support team if you
-          can't find what you're looking for.
+          can&apos;t find what you're looking for.
         </p>
       </div>
       <div className="mt-12 space-y-6">
@@ -134,7 +134,7 @@ export function HANDS() {
             Submit
           </Button>
         </form>
-      </div>
+      </div> */}
     </div>)
   );
 }
