@@ -54,7 +54,7 @@ export function Lend_items() {
               <span className="font-medium">2023-05-07</span>
             </div>
             <div className="flex items-center mb-2">
-              <span className="text-gray-500 mr-2">Renter's mobile:</span>
+              <span className="text-gray-500 mr-2">Renter&apos;s mobile:</span>
               <span className="font-medium">123-456-7890</span>
             </div>
             <div className="mt-4">
@@ -86,7 +86,7 @@ export function Lend_items() {
               <span className="font-medium">2023-06-15</span>
             </div>
             <div className="flex items-center mb-2">
-              <span className="text-gray-500 mr-2">Renter's mobile:</span>
+              <span className="text-gray-500 mr-2">Renter&apos;s mobile:</span>
               <span className="font-medium">987-654-3210</span>
             </div>
             <div className="mt-4">
@@ -118,7 +118,7 @@ export function Lend_items() {
               <span className="font-medium">-</span>
             </div>
             <div className="flex items-center mb-2">
-              <span className="text-gray-500 mr-2">Renter's mobile:</span>
+              <span className="text-gray-500 mr-2">Renter&apos;s mobile:</span>
               <span className="font-medium">-</span>
             </div>
             <div className="mt-4">
