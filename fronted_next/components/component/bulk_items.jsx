@@ -77,7 +77,7 @@ export function Bulk_items() {
           <div key={item.id} className="bg-card rounded-lg overflow-hidden shadow-md">
             <Link href="#" className="block" prefetch={false}>
               <img
-                src={item.product_image || "/placeholder.svg"}
+                src={ "/placeholder.svg"}
                 alt={`Rental Item ${item.id}`}
                 width={300}
                 height={200}
