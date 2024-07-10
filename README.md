@@ -1,6 +1,7 @@
 # Swiftly-P2P_Rental
 Transform How You Share: Peer-to-Peer Rentals for Everyday Essentials.
-[Live Deomo](https://swiftly-drab.vercel.app/)
+
+-[Live Demo](https://swiftly-drab.vercel.app/)
 
 ![Home Page](image.png)
 
