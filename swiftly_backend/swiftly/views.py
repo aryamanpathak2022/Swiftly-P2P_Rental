@@ -189,6 +189,12 @@ class ProductView(APIView):
         products = Product.objects.filter(is_active=True, is_deleted=False,renter=None)
         return Response(ProductSerializer(products, many=True).data, status=status.HTTP_200_OK)
 
+
+class IndividualProductView(APIView):
+    def get(self, request, product_id, *args, **kwargs):
+        product = Product.objects.get(pk=product_id)
+        return Response(ProductSerializer(product).data, status=status.HTTP_200_OK)
+
 class RentProductView(APIView):
     def post(self, request, product_id, *args, **kwargs):
         product = Product.objects.get(pk=product_id)
