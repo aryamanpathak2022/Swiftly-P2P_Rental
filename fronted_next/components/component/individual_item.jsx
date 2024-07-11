@@ -31,6 +31,34 @@ export function Individual_item() {
     fetchItemData();
   }, [itemId]);
 
+
+const handleClick = async () => {
+    const jwtToken = localStorage.getItem('jwtToken');
+
+    try {
+      const response = await fetch(`https://swiftly-p2p-rental.onrender.com/swiftly/rent-product/${itemId}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
+        },
+        // You can add a body here if your backend expects it
+        body: JSON.stringify({}),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setItemData(data);
+        alert('Product rented successfully!');
+      } else {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error('Error renting product:', error);
+      alert('An error occurred while renting the product.');
+    }
+  };
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -62,7 +90,7 @@ export function Individual_item() {
       </div>
       <div className="mt-6 flex items-center justify-between">
         <div className="text-2xl font-bold">${itemData.per_day_rent} / day</div>
-        <Button size="lg">Rent Now</Button>
+        <Button onClick={handleClick} size="lg" >Rent Now</Button>
       </div>
       <Separator className="my-6" />
       <div className="space-y-6">
