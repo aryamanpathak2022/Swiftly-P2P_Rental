@@ -13,8 +13,6 @@ export function Bulk_items() {
     axios.get("https://swiftly-p2p-rental.onrender.com/swiftly/product/")
       .then((response) => setItems(response.data))
       .catch((error) => console.error("Error fetching data:", error));
-      // print response.data
-      console.log(items);
   }, []);
 
   return (
@@ -75,9 +73,9 @@ export function Bulk_items() {
       <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4 sm:p-6 md:p-8">
         {items.map((item) => (
           <div key={item.id} className="bg-card rounded-lg overflow-hidden shadow-md">
-            <Link href="#" className="block" prefetch={false}>
+            <Link href={`../items/individual/${item.id}`} className="block" prefetch={false}>
               <img
-                src={ "/placeholder.svg"}
+                src={item.product_image || "/placeholder.svg"}
                 alt={`Rental Item ${item.id}`}
                 width={300}
                 height={200}
@@ -95,7 +93,6 @@ export function Bulk_items() {
     </div>
   );
 }
-
 
 function CircleHelpIcon(props) {
   return (

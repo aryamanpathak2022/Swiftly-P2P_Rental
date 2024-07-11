@@ -1,31 +1,67 @@
-
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+"use client"
+import { useState, useEffect } from 'react';
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { usePathname } from 'next/navigation';
 
 export function Individual_item() {
+
+  const pathname=usePathname()
+
+  const itemId = pathname.split('/').pop();
+  const [itemData, setItemData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchItemData = async () => {
+      try {
+        
+        const response = await fetch("https://swiftly-p2p-rental.onrender.com/swiftly/product/1");
+        const data = await response.json();
+        setItemData(data);
+        setLoading(false);
+        // console.log(pathname);
+      } catch (error) {
+        console.error('Error fetching item data:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchItemData();
+  }, [itemId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!itemData) {
+    return <div>Error loading item data</div>;
+  }
+
   return (
-    (<div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+    <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
       <div className="flex items-center justify-between mb-4">
-        <div className="text-sm font-medium text-primary">Hosted by John Doe</div>
+        <div className="text-sm font-medium text-primary">Hosted by {itemData.owner.fullName}</div>
         <div className="flex items-center gap-2">
           <Avatar className="w-8 h-8 border">
             <AvatarImage src="/placeholder-user.jpg" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <div className="text-sm text-muted-foreground">Hosted by John Doe</div>
+          <div className="text-sm text-muted-foreground">Hosted by {itemData.owner.fullName}</div>
         </div>
       </div>
       <div className="rounded-lg overflow-hidden">
         <img
-          src="/placeholder.svg"
+          src={"/placeholder.svg"}
           alt="Item Image"
           width={800}
           height={500}
-          className="w-full h-[400px] object-cover" />
+          className="w-full h-[400px] object-cover"
+        />
       </div>
       <div className="mt-6 flex items-center justify-between">
-        <div className="text-2xl font-bold">$50 / day</div>
+        <div className="text-2xl font-bold">${itemData.per_day_rent} / day</div>
         <Button size="lg">Rent Now</Button>
       </div>
       <Separator className="my-6" />
@@ -80,13 +116,13 @@ export function Individual_item() {
           </div>
         </div>
       </div>
-    </div>)
+    </div>
   );
 }
 
 function StarIcon(props) {
   return (
-    (<svg
+    <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -96,9 +132,11 @@ function StarIcon(props) {
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
-      strokeLinejoin="round">
+      strokeLinejoin="round"
+    >
       <polygon
-        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-    </svg>)
+        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+      />
+    </svg>
   );
 }
